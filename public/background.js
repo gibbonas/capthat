@@ -22,7 +22,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   
   if (request.action === 'downloadMultiple') {
     const downloads = request.urls.map((url, index) => {
-      const filename = `capture/${request.filenames[index] || `image-${Date.now()}-${index}.jpg`}`;
+      const filename = request.filenames && request.filenames[index] 
+        ? request.filenames[index] 
+        : `capthat/image-${Date.now()}-${index}.jpg`;
       return new Promise((resolve) => {
         chrome.downloads.download({
           url: url,
@@ -41,4 +43,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true; // Keep the message channel open
   }
 });
+
 
